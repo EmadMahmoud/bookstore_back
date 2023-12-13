@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const mongoURL = process.env.MONGODB_URL;
 const port = process.env.PORT || 3000
+const authRoutes = require('./routes/auth');
 
 
 app.use(bodyParser.json());
@@ -21,8 +22,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', (req, res, next) => {
-    res.send('Hello from express');
+
+app.use('/auth', authRoutes);
+
+app.use((error, req, res, next) => {
+    console.log(error);
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({ message: message, data: data })
 })
 
 mongoose.connect(mongoURL)

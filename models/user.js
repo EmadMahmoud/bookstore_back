@@ -22,6 +22,12 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    userName: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     role: {
         type: Number,
         required: true,
