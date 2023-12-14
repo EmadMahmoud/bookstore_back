@@ -2,14 +2,14 @@ const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const JWTSECRETKEY = process.env.JWTSECRETKEY
+const JWTKEY = process.env.JWTSECRETKEY
 
 
 exports.signup = async (req, res, next) => {
     const englishName = req.body.enName;
     const arabicName = req.body.arName;
     const email = req.body.email;
-    const password = req.body.pass;
+    const password = req.body.password;
     const userName = req.body.userName;
 
     const errors = validationResult(req);
@@ -70,7 +70,7 @@ exports.login = async (req, res, next) => {
             email: loggedUser.email,
             userId: loggedUser._id.toString()
         },
-            JWTSECRETKEY,
+            JWTKEY,
             { expiresIn: '3h' }
         );
         res.status(200).json({

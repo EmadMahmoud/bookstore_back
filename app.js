@@ -6,6 +6,8 @@ require('dotenv').config();
 const mongoURL = process.env.MONGODB_URL;
 const port = process.env.PORT || 3000
 const authRoutes = require('./routes/auth');
+const categoryRoutes = require('./routes/category');
+const libraryRoutes = require('./routes/library')
 
 
 app.use(bodyParser.json());
@@ -24,6 +26,8 @@ app.use((req, res, next) => {
 
 
 app.use('/auth', authRoutes);
+app.use('/category', categoryRoutes);
+app.use('/library', libraryRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);

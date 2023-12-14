@@ -10,7 +10,7 @@ router.post('/signup',
         body('enName', 'Not a Valid English Name').trim().not().isEmpty(),
         body('arName', 'Not a Valid Arabic Name').trim().not().isEmpty(),
         body('email', 'Not a Valid Email').normalizeEmail().isEmail().withMessage('Please enter a valid email'),
-        body('pass', 'Not a Valid Password').trim().not().isEmpty(),
+        body('password', 'Not a Valid Password').trim().not().isEmpty(),
         body('userName').trim().not().isEmpty()
     ],
     authController.signup);
