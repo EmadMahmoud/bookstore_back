@@ -44,7 +44,7 @@ const bookSchema = new Schema({
         type: Boolean
     },
     category_id: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Category',
         required: true
     },

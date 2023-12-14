@@ -38,19 +38,15 @@ const userSchema = new Schema({
             book_id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Book',
-            },
-            recordedDate: {
-                type: Date,
-                default: Date.now
+                required: true
             },
             grantCode: {
-                type: String
-            },
-            validDays: {
-                type: Number
+                type: String,
+                required: true
             },
             grantDate: {
-                type: Date
+                type: Date,
+                default: Date.now
             }
         }
     ]

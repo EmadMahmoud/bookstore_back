@@ -38,15 +38,6 @@ exports.addCategory = async (req, res, next) => {
 
 exports.getCategories = async (req, res, next) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Failed');
-        error.statusCode = 422;
-        error.data = errors.array();
-        next(error);
-    }
-
     try {
         const categories = await Category.find();
         const totalCategories = await Category.find().countDocuments();
