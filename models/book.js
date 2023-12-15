@@ -52,7 +52,33 @@ const bookSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    questions: [
+        {
+            questionText: {
+                type: String,
+                required: true
+            },
+            index: {
+                type: Number,
+                required: true
+            },
+            choices: [
+                {
+                    type: String,
+                    required: true
+                }
+            ],
+            answer: {
+                type: Number,
+                required: true
+            },
+            point: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Book', bookSchema);

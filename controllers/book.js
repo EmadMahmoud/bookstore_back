@@ -118,3 +118,65 @@ exports.getCategoryBooks = async (req, res, next) => {
     }
 };
 
+
+// question controllers
+exports.addQuestion = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    const questionText = req.body.questionText;
+    const index = req.body.index;
+    const choices = req.body.choices;
+    const answer = req.body.answer;
+    const point = req.body.point;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        next(error);
+    }
+
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            next(error);
+        }
+        const question = {
+            questionText: questionText,
+            index: index,
+            choices: choices,
+            answer: answer,
+            point: point
+        };
+        book.questions.push(question);
+        const updatedBook = await book.save();
+        res.status(201).json({ message: 'Question added', book: updatedBook });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.getQuestions = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            next(error);
+        }
+        const questions = book.questions;
+        res.status(200).json({ message: 'Questions fetched', questions: questions });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};

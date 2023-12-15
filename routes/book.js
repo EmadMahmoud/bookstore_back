@@ -54,4 +54,34 @@ router.get('/books/:categoryId', bookController.getCategoryBooks);
 
 
 
+//questions routes
+router.post('/book/:bookId/add-question',
+    [
+        body('questionText', 'Not a valid question')
+            .trim()
+            .isLength({ min: 1 }).withMessage('Question must be at least 1 character long')
+            .not().isEmpty(),
+        body('index', 'Not a valid index')
+            .trim()
+            .isLength({ min: 0 })
+            .not().isEmpty()
+            .isNumeric(),
+        body('choices', 'Not a valid choices')
+            .isLength({ min: 1 })
+            .not().isEmpty(),
+        body('answer', 'Not a valid answer')
+            .not().isEmpty()
+            .isNumeric(),
+        body('point', 'Not a valid point')
+            .not().isEmpty()
+            .isNumeric()
+    ],
+    isAuth,
+    bookController.addQuestion
+);
+
+router.get('/book/:bookId/questions', bookController.getQuestions);
+
+
+
 module.exports = router;
