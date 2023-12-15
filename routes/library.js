@@ -20,4 +20,10 @@ router.post('/add',
 
 router.get('/libraries', libraryController.getLibraries);
 
+router.get('/library/:libraryId', libraryController.getLibrary);
+
+router.put('/edit/:libraryId', isAuth, libraryController.editLibrary);
+
+router.delete('/delete/:libraryId', isAuth, libraryController.deleteLibrary);
+
 module.exports = router;
