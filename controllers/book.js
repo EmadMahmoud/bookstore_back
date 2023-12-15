@@ -99,4 +99,22 @@ exports.getBook = async (req, res, next) => {
     }
 };
 
+// get all books in a single category
+exports.getCategoryBooks = async (req, res, next) => {
+    const categoryId = req.params.categoryId;
+    try {
+        const books = await Book.find({ category_id: categoryId });
+        if (!books) {
+            const error = new Error('No books in this category');
+            error.statusCode = 404;
+            next(error);
+        }
+        res.status(200).json({ message: 'Books fetched', books: books });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
 

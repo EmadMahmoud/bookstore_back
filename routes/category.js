@@ -15,6 +15,6 @@ router.post('/add',
 )
 
 
-router.get('/categories', categoryController.getCategories)
+router.get('/categories', categoryController.getCategories);
 
 module.exports = router;

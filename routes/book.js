@@ -49,6 +49,9 @@ router.get('/books', bookController.getBooks);
 
 router.get('/book/:bookId', bookController.getBook);
 
+//get all books in a single category
+router.get('/books/:categoryId', bookController.getCategoryBooks);
+
 
 
 module.exports = router;
