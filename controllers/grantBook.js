@@ -61,6 +61,9 @@ exports.getGrantBooks = async (req, res, next) => {
         const grantBooksList = [];
         user.grantedBooks.forEach(book => {
             let grantBook = {};
+            if (!book.book_id) {
+                return;
+            }
             grantBook.title = book.book_id.title;
             grantBook.isbn = book.book_id.isbn;
             grantBook.validTillDate = book.book_id.daysToRead;

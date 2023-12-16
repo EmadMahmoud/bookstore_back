@@ -52,6 +52,8 @@ router.get('/book/:bookId', bookController.getBook);
 //get all books in a single category
 router.get('/books/:categoryId', bookController.getCategoryBooks);
 
+router.delete('/delete/:bookId', isAuth, bookController.deleteBook);
+
 
 
 //questions routes

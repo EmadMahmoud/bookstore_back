@@ -12,9 +12,12 @@ router.post('/add',
     ],
     isAuth,
     categoryController.addCategory
-)
-
+);
 
 router.get('/categories', categoryController.getCategories);
+
+router.get('/:categoryId', categoryController.getCategory);
+
+router.delete('/delete/:categoryId', isAuth, categoryController.deleteCategory);
 
 module.exports = router;

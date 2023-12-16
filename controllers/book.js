@@ -2,6 +2,8 @@ const { validationResult } = require('express-validator');
 const Book = require('../models/book');
 const User = require('../models/user');
 const Category = require('../models/category');
+const path = require('path');
+const fs = require('fs');
 
 
 exports.addBook = async (req, res, next) => {
@@ -118,6 +120,34 @@ exports.getCategoryBooks = async (req, res, next) => {
     }
 };
 
+exports.deleteBook = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            next(error);
+        }
+        const category = await Category.findById(book.category_id);
+        if (!category) {
+            const error = new Error('Category not found');
+            error.statusCode = 404;
+            next(error);
+        }
+        category.books.pull(bookId);
+        await category.save();
+        clearImage(book.imageUrl);
+        await Book.findByIdAndDelete(bookId);
+        res.status(200).json({ message: 'Book deleted' });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
 
 // question controllers
 exports.addQuestion = async (req, res, next) => {
@@ -180,3 +210,15 @@ exports.getQuestions = async (req, res, next) => {
         next(err);
     }
 };
+
+
+
+
+//helper function
+const clearImage = filePath => {
+    filePath = path.join(__dirname, '..', filePath);
+    fs.unlink(filePath, err => {
+        return err
+    });
+}
+exports.clearBookImage = clearImage;
