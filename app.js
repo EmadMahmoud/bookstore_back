@@ -8,13 +8,30 @@ const port = process.env.PORT || 3000
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const cron = require('node-cron');
 const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
 const libraryRoutes = require('./routes/library');
 const bookRoutes = require('./routes/book');
-const grantBookRoutes = require('./routes/grantBook')
+const grantBookRoutes = require('./routes/grantBook');
+const UserPendingSchema = require('./models/pending_user');
 
 
+
+
+/*
+this schedule will run every 5 hours, then delete any pending user with a sending confirmation email over than 2 hours.
+*/
+cron.schedule('0 */5 * * *', async () => {
+    try {
+        const now = new Date();
+        const twoHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000);
+        const oldDocuments = await UserPendingSchema.deleteMany({ createdAt: { $lt: twoHoursAgo } });
+        console.log(`${oldDocuments.deletedCount} documents deleted`);
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 
 // Multer config

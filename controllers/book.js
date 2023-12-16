@@ -164,7 +164,7 @@ exports.addQuestion = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -232,7 +232,7 @@ exports.editBook = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {

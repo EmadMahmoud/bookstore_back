@@ -1,6 +1,18 @@
 const { validationResult } = require('express-validator');
 const Book = require('../models/book');
 const User = require('../models/user');
+const nodemailer = require("nodemailer");
+const SENDMAILUSER = process.env.SENDMAILUSER
+const SENDMAILPASS = process.env.SENDMAILPASS
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: SENDMAILUSER,
+        pass: SENDMAILPASS
+    }
+})
 
 
 exports.addGrantBook = async (req, res, next) => {
@@ -40,10 +52,22 @@ exports.addGrantBook = async (req, res, next) => {
 
         user.grantedBooks.push(grantBook);
         await user.save();
+        console.log(user.email)
 
         res.status(201).json({
             message: 'Book granted successfully',
             grantBook: grantBook
+        });
+        // send email to the user who granted the book with the granted book information
+        transporter.sendMail({
+            from: SENDMAILUSER,
+            to: user.email,
+            subject: "Book Granted",
+            html: `<p>Book Title: ${book.title}</p>
+            <p>Book ISBN: ${book.isbn}</p>
+            <p>Book Valid Till Date: ${book.daysToRead}</p>
+            <p>Book Grant Code: ${grantCode}</p>
+            <p>Book Grant Date: ${new Date()}</p>`
         })
     } catch (err) {
         if (!err.statusCode) {

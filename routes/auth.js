@@ -13,13 +13,17 @@ router.post('/signup',
         body('password', 'Not a Valid Password').trim().not().isEmpty(),
         body('userName').trim().not().isEmpty()
     ],
-    authController.signup);
+    authController.signup
+);
 
 router.post('/login',
     [
         body('email', 'Not a Valid Email').normalizeEmail().isEmail().withMessage('Please enter a valid email'),
         body('password', 'Not a Valid Password').trim().not().isEmpty()
     ],
-    authController.login);
+    authController.login
+);
+
+router.post('/confirm-email', authController.confirmEmail);
 
 module.exports = router;
