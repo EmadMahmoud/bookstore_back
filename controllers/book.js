@@ -212,6 +212,66 @@ exports.getQuestions = async (req, res, next) => {
 };
 
 
+exports.editBook = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    const title = req.body.title;
+    const description = req.body.description;
+    const author = req.body.author;
+    const image = req.file;
+    const isbn = req.body.isbn;
+    const categoryId = req.body.bookCategoryId;
+    const userId = req.userId;
+    const pages = req.body.pages;
+    const imprintId = req.body.imprintId;
+    const pdfUrl = req.body.pdfUrl;
+    const daysToRead = req.body.daysToRead;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        next(error);
+    }
+
+    try {
+        const loggedUser = await User.findById(req.userId);
+        if (loggedUser.role == 0) {
+            const error = new Error('Not Authorized');
+            error.statusCode = 401;
+            next(error);
+        }
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            next(error);
+        }
+        //if there is a new image, if not, the old one will remain
+        if (image) {
+            clearImage(book.imageUrl);
+            book.imageUrl = image.path.replace('\\', '/');
+        }
+        book.title = title;
+        book.description = description;
+        book.author = author;
+        book.isbn = isbn;
+        book.category_id = categoryId;
+        book.user_id = userId;
+        book.pages = pages;
+        book.imprintId = imprintId;
+        book.pdfUrl = pdfUrl;
+        book.daysToRead = daysToRead;
+        const updatedBook = await book.save();
+        res.status(200).json({ message: 'Book Updated', book: updatedBook });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
 
 
 //helper function

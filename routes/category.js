@@ -20,4 +20,12 @@ router.get('/:categoryId', categoryController.getCategory);
 
 router.delete('/delete/:categoryId', isAuth, categoryController.deleteCategory);
 
+router.put('/edit/:categoryId',
+    [
+        body('name', 'Not a Valid Name').trim().not().isEmpty().isLength({ max: 50 }),
+        body('description', 'Not a Valid Description').trim().not().isEmpty().isLength({ max: 1000 })
+    ],
+    isAuth,
+    categoryController.editCategory);
+
 module.exports = router;
