@@ -26,4 +26,18 @@ router.post('/login',
 
 router.post('/confirm-email', authController.confirmEmail);
 
+router.post('/sendResetPasswordLink',
+    [
+        body('email', 'Not a Valid Email').normalizeEmail().isEmail().withMessage('Please enter a valid email'),
+    ],
+    authController.sendResetPasswordLink
+);
+
+router.patch('/reset-password',
+    [
+        body('password', 'Not a Valid Password').trim().not().isEmpty()
+    ],
+    authController.resetPassword
+);
+
 module.exports = router;

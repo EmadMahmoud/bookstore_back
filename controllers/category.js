@@ -14,7 +14,7 @@ exports.addCategory = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -22,7 +22,7 @@ exports.addCategory = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const category = new Category({
             name: name,
@@ -61,7 +61,7 @@ exports.getCategory = async (req, res, next) => {
         if (!category) {
             const error = new Error('Category not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         res.status(200).json({ message: 'Category Fetched', category: category });
     } catch (err) {
@@ -79,13 +79,13 @@ exports.deleteCategory = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const category = await Category.findById(categoryId);
         if (!category) {
             const error = new Error('Category not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         await deleteBooksInCategory(categoryId);
         await Category.findByIdAndDelete(categoryId);
@@ -109,7 +109,7 @@ exports.editCategory = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -117,13 +117,13 @@ exports.editCategory = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const category = await Category.findById(categoryId);
         if (!category) {
             const error = new Error('Category not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         category.name = name;
         category.description = description;

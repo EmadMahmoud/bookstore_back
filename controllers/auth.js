@@ -154,5 +154,85 @@ exports.login = async (req, res, next) => {
         }
         next(err);
     }
-}
+};
 
+exports.sendResetPasswordLink = async (req, res, next) => {
+    const email = req.body.email;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        next(error);
+    }
+    try {
+        const now = new Date();
+        const halfHour = new Date(now.getTime() + 1 * 30 * 60 * 1000);
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            const error = new Error('User not found');
+            error.statusCode = 401;
+            throw error;
+        };
+        const token = crypto.randomBytes(32).toString('hex');
+        user.resetToken = token;
+        user.resetTokenEpiration = halfHour;
+        await user.save();
+        transporter.sendMail({
+            to: email,
+            from: SENDMAILUSER,
+            subject: 'Reset Password',
+            html: `<h1>Please Click on the link to reset your password</h1>
+            <a href="http://localhost:3000/auth/reset-password?t=${token}&e=${email}">Reset Password</a>
+            <u>note: this link will not be valid after 30 minutes.</u>`
+        })
+        res.status(201).json({ message: 'Reset Password Link Sent Successfully' });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.resetPassword = async (req, res, next) => {
+    const token = req.body.token;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        next(error);
+    }
+    try {
+        const now = new Date();
+        const user = await User.findOne({ email: email, resetToken: token, resetTokenEpiration: { $gt: now } });
+        if (!user) {
+            const error = new Error('User not found');
+            error.statusCode = 401;
+            throw error;
+        };
+        const hashedPassword = await bcrypt.hash(password, 12);
+        user.password = hashedPassword;
+        user.resetToken = undefined;
+        user.resetTokenEpiration = undefined;
+        await user.save();
+        res.status(201).json({ message: 'Password Reset Successfully' });
+        transporter.sendMail({
+            to: email,
+            from: SENDMAILUSER,
+            subject: 'Password Reset Successfully',
+            html: `<h1>Password Reset Successfully</h1>
+                <p>You can now login with your new password.</p>`
+        })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};

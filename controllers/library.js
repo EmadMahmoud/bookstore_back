@@ -16,7 +16,7 @@ exports.addLibrary = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -24,7 +24,7 @@ exports.addLibrary = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const library = new Library({
             name: name,
@@ -89,7 +89,7 @@ exports.editLibrary = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -97,7 +97,7 @@ exports.editLibrary = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const library = await Library.findById(libraryId);
         if (!library) {
@@ -128,7 +128,7 @@ exports.deleteLibrary = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const library = await Library.findById(libraryId);
         if (!library) {

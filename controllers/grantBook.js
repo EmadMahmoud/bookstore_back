@@ -26,7 +26,7 @@ exports.addGrantBook = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -35,14 +35,14 @@ exports.addGrantBook = async (req, res, next) => {
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
 
         const user = await User.findById(userId);
         if (!user) {
             const error = new Error('User not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
 
         const grantBook = {
@@ -98,7 +98,7 @@ exports.getGrantBooks = async (req, res, next) => {
         if (!user) {
             const error = new Error('User not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
 
         res.status(200).json({

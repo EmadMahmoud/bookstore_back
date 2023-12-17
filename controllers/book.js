@@ -26,7 +26,7 @@ exports.addBook = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
@@ -34,12 +34,12 @@ exports.addBook = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         if (!image) {
             const error = new Error('No image provided');
             error.statusCode = 422;
-            next(error);
+            throw error;
         }
 
         const book = new Book({
@@ -90,7 +90,7 @@ exports.getBook = async (req, res, next) => {
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         res.status(200).json({ message: 'Book fetched', book: book });
     } catch (err) {
@@ -109,7 +109,7 @@ exports.getCategoryBooks = async (req, res, next) => {
         if (!books) {
             const error = new Error('No books in this category');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         res.status(200).json({ message: 'Books fetched', books: books });
     } catch (err) {
@@ -127,13 +127,13 @@ exports.deleteBook = async (req, res, next) => {
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         const category = await Category.findById(book.category_id);
         if (!category) {
             const error = new Error('Category not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         category.books.pull(bookId);
         await category.save();
@@ -172,7 +172,7 @@ exports.addQuestion = async (req, res, next) => {
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         const question = {
             questionText: questionText,
@@ -199,7 +199,7 @@ exports.getQuestions = async (req, res, next) => {
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         const questions = book.questions;
         res.status(200).json({ message: 'Questions fetched', questions: questions });
@@ -240,13 +240,13 @@ exports.editBook = async (req, res, next) => {
         if (loggedUser.role == 0) {
             const error = new Error('Not Authorized');
             error.statusCode = 401;
-            next(error);
+            throw error;
         }
         const book = await Book.findById(bookId);
         if (!book) {
             const error = new Error('Book not found');
             error.statusCode = 404;
-            next(error);
+            throw error;
         }
         //if there is a new image, if not, the old one will remain
         if (image) {
