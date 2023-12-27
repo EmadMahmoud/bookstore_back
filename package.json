@@ -1,16 +1,29 @@
 {
   "name": "bookstoreback",
   "version": "1.0.0",
-  "description": "",
+  "description": "bookstore api",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "SET NODE_ENV=testing&& jest --watchAll",
+    "start": "SET NODE_ENV=development&& nodemon app.js"
   },
   "author": "Emad Mahmoud",
   "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/test/**/**/*.js?(x)",
+      "**/?(*.)+(spec|test).js?(x)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "@types/jest": "^29.5.11",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.3"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

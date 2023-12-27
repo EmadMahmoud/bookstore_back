@@ -1,4 +1,6 @@
 const express = require('express');
+const loadEnv = require('./util/config');
+require('dotenv').config();
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -53,7 +55,9 @@ const fileFilter = (req, file, cb) => {
     } else {
         cb(null, false);
     }
-}
+};
+
+
 
 app.use(bodyParser.json());
 app.use(
@@ -89,11 +93,14 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message, data: data })
 })
 
+loadEnv(process.env.NODE_ENV || 'development');
 mongoose.connect(mongoURL)
     .then(() => {
-        app.listen(port);
-        console.log('Connected to database');
+        app.listen(process.env.PORT || 3000);
+        console.log(`app running on port ${process.env.PORT}`);
     })
-    .catch(() => {
-        console.log('Connection failed');
+    .catch((err) => {
+        console.log(`Connection failed: ${err}`);
     })
+
+module.exports = app;
