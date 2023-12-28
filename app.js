@@ -2,11 +2,10 @@ const express = require('express');
 const loadEnv = require('./util/config');
 require('dotenv').config();
 const app = express();
+loadEnv(process.env.NODE_ENV || 'development');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const mongoURL = process.env.MONGODB_URL;
-const port = process.env.PORT || 3000
 const multer = require('multer');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
@@ -17,7 +16,7 @@ const libraryRoutes = require('./routes/library');
 const bookRoutes = require('./routes/book');
 const grantBookRoutes = require('./routes/grantBook');
 const UserPendingSchema = require('./models/pending_user');
-
+const { DATABASE_URL, PORT } = process.env;
 
 
 
@@ -93,10 +92,9 @@ app.use((error, req, res, next) => {
     res.status(status).json({ message: message, data: data })
 })
 
-loadEnv(process.env.NODE_ENV || 'development');
-mongoose.connect(mongoURL)
+mongoose.connect(DATABASE_URL)
     .then(() => {
-        app.listen(process.env.PORT || 3000);
+        app.listen(PORT || 3000);
         console.log(`app running on port ${process.env.PORT}`);
     })
     .catch((err) => {

@@ -5,19 +5,17 @@ const crypto = require('crypto');
 const nodemailer = require("nodemailer");
 const User = require('../models/user');
 const UserPending = require('../models/pending_user');
-const JWTKEY = process.env.JWTSECRETKEY
-const SENDMAILUSER = process.env.SENDMAILUSER
-const SENDMAILPASS = process.env.SENDMAILPASS
+const { SENDMAILUSER, SENDMAILPASS, JWTSECRETKEY } = process.env;
 
 
 
-const transporter = nodemailer.createTransport({
+const createTransport = (() => nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: SENDMAILUSER,
         pass: SENDMAILPASS
     }
-})
+}))
 
 
 exports.signup = async (req, res, next) => {
@@ -55,6 +53,7 @@ exports.signup = async (req, res, next) => {
             token: token
         });
         const result = await user.save();
+        const transporter = createTransport();
         transporter.sendMail({
             from: SENDMAILUSER,
             to: email,
@@ -63,7 +62,8 @@ exports.signup = async (req, res, next) => {
             <a href="http://localhost:3000/auth/confirm-email?t=${token}&e=${email}">Confirm Email</a>
             <u>note: this link will not be valid after 1 hour.</u>`
         })
-        res.status(201).json({ message: 'User created, Still to be confirmed', userId: result._id });
+        res.status(201)
+        res.json({ message: 'User created, Still to be confirmed', userId: result._id });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -95,6 +95,8 @@ exports.confirmEmail = async (req, res, next) => {
         const result = await user.save();
         await UserPending.findByIdAndDelete(pendingUser._id);
         res.status(201).json({ message: 'User confirmed', userId: result._id });
+
+        const transporter = createTransport();
         transporter.sendMail({
             to: email,
             from: SENDMAILUSER,
@@ -139,7 +141,7 @@ exports.login = async (req, res, next) => {
             email: loggedUser.email,
             userId: loggedUser._id.toString()
         },
-            JWTKEY,
+            JWTSECRETKEY,
             { expiresIn: '3h' }
         );
         res.status(200).json({
@@ -179,6 +181,8 @@ exports.sendResetPasswordLink = async (req, res, next) => {
         user.resetToken = token;
         user.resetTokenEpiration = halfHour;
         await user.save();
+
+        const transporter = createTransport();
         transporter.sendMail({
             to: email,
             from: SENDMAILUSER,
@@ -222,6 +226,8 @@ exports.resetPassword = async (req, res, next) => {
         user.resetTokenEpiration = undefined;
         await user.save();
         res.status(201).json({ message: 'Password Reset Successfully' });
+
+        const transporter = createTransport();
         transporter.sendMail({
             to: email,
             from: SENDMAILUSER,

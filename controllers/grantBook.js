@@ -2,8 +2,8 @@ const { validationResult } = require('express-validator');
 const Book = require('../models/book');
 const User = require('../models/user');
 const nodemailer = require("nodemailer");
-const SENDMAILUSER = process.env.SENDMAILUSER
-const SENDMAILPASS = process.env.SENDMAILPASS
+const { SENDMAILUSER, SENDMAILPASS } = process.env;
+
 
 
 const transporter = nodemailer.createTransport({

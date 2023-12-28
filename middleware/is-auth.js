@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const JWTKEY = process.env.JWTSECRETKEY
+const { JWTSECRETKEY } = process.env;
 
 
 module.exports = (req, res, next) => {
@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     const token = authHeader.split(' ')[1];
     let decodedToken;
     try {
-        decodedToken = jwt.verify(token, JWTKEY);
+        decodedToken = jwt.verify(token, JWTSECRETKEY);
     } catch (err) {
         err.statusCode = 500;
         throw err;
