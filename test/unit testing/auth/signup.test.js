@@ -31,7 +31,7 @@ const mockResponse = jest.fn().mockReturnValue({
 
 const mockNext = jest.fn();
 
-describe('Auth Controller - Signup', () => {
+describe('Auth Controller - signup', () => {
 
     let createTransportSpy;
     beforeEach(() => {

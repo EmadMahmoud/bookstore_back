@@ -80,7 +80,7 @@ exports.confirmEmail = async (req, res, next) => {
         const oneHourAgo = new Date(now.getTime() - 1 * 60 * 60 * 1000);
         const pendingUser = await UserPending.findOne({ email: email, token: token, createdAt: { $gte: oneHourAgo } });
         if (!pendingUser) {
-            const error = new Error('User not found');
+            const error = new Error('Invalid Token');
             error.statusCode = 401;
             throw error;
         };
@@ -94,7 +94,7 @@ exports.confirmEmail = async (req, res, next) => {
         });
         const result = await user.save();
         await UserPending.findByIdAndDelete(pendingUser._id);
-        res.status(201).json({ message: 'User confirmed', userId: result._id });
+        res.status(201).json({ message: 'User Confirmed', userId: result._id });
 
         const transporter = createTransport();
         transporter.sendMail({
@@ -121,7 +121,7 @@ exports.login = async (req, res, next) => {
         const error = new Error('Validation Failed');
         error.statusCode = 422;
         error.data = errors.array();
-        next(error);
+        return next(error);
     }
 
     try {
