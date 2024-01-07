@@ -77,33 +77,9 @@ Emad Mahmoud : [Twitter](https://twitter.com/EmadMah82323322) - emad.mahmoud.dev
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-[npm-shield]: https://img.shields.io/badge/npm-8.18.0-green?style=for-the-badge&logo=npm&link=https%3A%2F%2Fexpressjs.com%2Fen%2F5x%2Fapi.html&link=left
+[npm-shield]: https://img.shields.io/badge/npm-8.18.0-46954A?style=for-the-badge&logo=npm&link=https%3A%2F%2Fexpressjs.com%2Fen%2F5x%2Fapi.html&link=left
 
 [contributors-shield]: https://img.shields.io/github/contributors/EmadMahmoud/bookstore_back.svg?style=for-the-badge
 [contributors-url]: https://github.com/EmadMahmoud/bookstore_back/graphs/contributors
