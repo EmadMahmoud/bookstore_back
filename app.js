@@ -78,11 +78,11 @@ app.use((req, res, next) => {
 });
 
 
-app.use('/auth', authRoutes);
-app.use('/category', categoryRoutes);
-app.use('/library', libraryRoutes);
-app.use('/book', bookRoutes);
-app.use('/grantBook', grantBookRoutes);
+app.use('/bookstore/api/v1/auth', authRoutes);
+app.use('/bookstore/api/v1/category', categoryRoutes);
+app.use('/bookstore/api/v1/library', libraryRoutes);
+app.use('/bookstore/api/v1/book', bookRoutes);
+app.use('/bookstore/api/v1/grantBook', grantBookRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);

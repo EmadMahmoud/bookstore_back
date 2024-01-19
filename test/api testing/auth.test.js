@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const UserPending = require('../../models/pending_user');
 const User = require('../../models/user');
 
+const fixedPart = '/bookstore/api/v1';
 
 describe('Auth Routes', () => {
     let createTransportSpy;
@@ -32,7 +33,7 @@ describe('Auth Routes', () => {
         })
 
         test('POST /auth/signup <=validation fail=> 422 && { message, data}', async () => {
-            const response = await request(app).post('/auth/signup').send({
+            const response = await request(app).post(`${fixedPart}/auth/signup`).send({
                 enName: 'Emma Watson',
                 arName: 'واتسون',
                 password: '123456',
@@ -51,7 +52,7 @@ describe('Auth Routes', () => {
         });
 
         test('POST /auth/signup <=success=> 201 && { message, userId }', async () => {
-            const response = await request(app).post('/auth/signup').send({
+            const response = await request(app).post(`${fixedPart}/auth/signup`).send({
                 enName: 'Emma Watson',
                 arName: 'واتسون',
                 email: 'emadis4char@gmail.com',
@@ -75,7 +76,7 @@ describe('Auth Routes', () => {
                 password: '123456',
                 userName: 'emma'
             });
-            const response = await request(app).post('/auth/signup').send({
+            const response = await request(app).post(`${fixedPart}/auth/signup`).send({
                 enName: 'Emma Watson',
                 arName: 'واتسون',
                 email: 'emadis4char@gmail.com',
@@ -92,7 +93,7 @@ describe('Auth Routes', () => {
     describe('Confirm Email', () => {
         test('POST /auth/confirm-email <=no user with that email or token=> 401 && { message }', async () => {
             const pendingUser = await UserPending.findOne({ email: 'emadis4char@gmail.com' });
-            const response = await request(app).post('/auth/confirm-email').query({
+            const response = await request(app).post(`${fixedPart}/auth/confirm-email`).query({
                 e: 'wrongemail@gmail.com',
                 t: pendingUser.token
             });
@@ -104,7 +105,7 @@ describe('Auth Routes', () => {
 
         test('POST /auth/confirm-email <=success=> 201 && { message, userId}', async () => {
             const pendingUser = await UserPending.findOne({ email: 'emadis4char@gmail.com' });
-            const response = await request(app).post('/auth/confirm-email').query({
+            const response = await request(app).post(`${fixedPart}/auth/confirm-email`).query({
                 e: pendingUser.email,
                 t: pendingUser.token
             });
@@ -118,7 +119,7 @@ describe('Auth Routes', () => {
 
     describe('Login', () => {
         test('POST /auth/login <=validation fail=> 422 && { message, data}', async () => {
-            const response = await request(app).post('/auth/login').send({
+            const response = await request(app).post(`${fixedPart}/auth/login`).send({
                 email: 'emadis4chargmail.com',
                 password: '123456',
             });
@@ -135,7 +136,7 @@ describe('Auth Routes', () => {
         });
 
         test('POST /auth/login <=user not found=> 401 && { message }', async () => {
-            const response = await request(app).post('/auth/login').send({
+            const response = await request(app).post(`${fixedPart}/auth/login`).send({
                 email: 'noUser@gmail.com',
                 password: 'correct',
             });
@@ -146,7 +147,7 @@ describe('Auth Routes', () => {
         });
 
         test('POST /auth/login <=wrong password=> 401 && { message }', async () => {
-            const response = await request(app).post('/auth/login').send({
+            const response = await request(app).post(`${fixedPart}/auth/login`).send({
                 email: 'emadis4char@gmail.com',
                 password: 'notCorrect'
             });
@@ -158,7 +159,7 @@ describe('Auth Routes', () => {
 
         test('POST /auth/login <=success=> 200 && { message, token, userId }', async () => {
             const user = await User.findOne({ email: 'emadis4char@gmail.com' });
-            const response = await request(app).post('/auth/login').send({
+            const response = await request(app).post(`${fixedPart}/auth/login`).send({
                 email: 'emadis4char@gmail.com',
                 password: '123456'
             });
