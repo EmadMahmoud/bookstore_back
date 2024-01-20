@@ -16,6 +16,8 @@ const libraryRoutes = require('./routes/library');
 const bookRoutes = require('./routes/book');
 const grantBookRoutes = require('./routes/grantBook');
 const UserPendingSchema = require('./models/pending_user');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./openapi.json');
 const { DATABASE_URL, PORT } = process.env;
 
 
@@ -35,7 +37,7 @@ cron.schedule('0 */5 * * *', async () => {
 })
 
 
-// Multer config
+// Multer Config
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'images');
@@ -55,6 +57,12 @@ const fileFilter = (req, file, cb) => {
         cb(null, false);
     }
 };
+
+// Swagger Config
+const options = {
+    customCss: '.swagger-ui .topbar { display: none }'
+};
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 
 
@@ -78,11 +86,11 @@ app.use((req, res, next) => {
 });
 
 
-app.use('/bookstore/api/v1/auth', authRoutes);
-app.use('/bookstore/api/v1/category', categoryRoutes);
-app.use('/bookstore/api/v1/library', libraryRoutes);
-app.use('/bookstore/api/v1/book', bookRoutes);
-app.use('/bookstore/api/v1/grantBook', grantBookRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/category', categoryRoutes);
+app.use('/api/v1/library', libraryRoutes);
+app.use('/api/v1/book', bookRoutes);
+app.use('/api/v1/grantBook', grantBookRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);

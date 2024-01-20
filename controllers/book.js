@@ -63,6 +63,7 @@ exports.addBook = async (req, res, next) => {
         res.status(201).json({ message: 'Book Created', book: createdBook });
     } catch (err) {
         if (!err.statusCode) {
+            err.message = "Internal server error"
             err.statusCode = 500;
         }
         next(err);

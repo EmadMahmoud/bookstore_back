@@ -46,11 +46,11 @@ router.post('/add',
     bookController.addBook
 );
 
-router.get('/books', bookController.getBooks);
+router.get('/getAllBooks', bookController.getBooks);
 
-router.get('/book/:bookId', bookController.getBook);
+router.get('/:bookId', bookController.getBook);
 
-router.put('/edit/:bookId',
+router.put('/:bookId',
     [
         body('title', 'Not a valid title')
             .trim()
@@ -87,17 +87,18 @@ router.put('/edit/:bookId',
 
     ],
     isAuth,
-    bookController.editBook)
+    bookController.editBook
+);
+
+router.delete('/:bookId', isAuth, bookController.deleteBook);
 
 //get all books in a single category
-router.get('/books/:categoryId', bookController.getCategoryBooks);
-
-router.delete('/delete/:bookId', isAuth, bookController.deleteBook);
+router.get('/getAllBooks/:categoryId', bookController.getCategoryBooks);
 
 
 
 //questions routes
-router.post('/book/:bookId/add-question',
+router.post('/:bookId/add-question',
     [
         body('questionText', 'Not a valid question')
             .trim()
@@ -122,7 +123,7 @@ router.post('/book/:bookId/add-question',
     bookController.addQuestion
 );
 
-router.get('/book/:bookId/questions', bookController.getQuestions);
+router.get('/:bookId/questions', bookController.getQuestions);
 
 
 

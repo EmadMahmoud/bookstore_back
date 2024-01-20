@@ -41,7 +41,7 @@ const bookSchema = new Schema({
         type: Number
     },
     noReads: {
-        type: Boolean
+        type: Number
     },
     category_id: {
         type: Schema.Types.ObjectId,

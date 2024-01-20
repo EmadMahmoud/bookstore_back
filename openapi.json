@@ -1,0 +1,301 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Bookled Documentation",
+        "description": "Bookled Documentation has everything you need to understand each endpoint",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Emad Mahmoud",
+            "url": "https://www.linkedin.com/in/emadmahmoud/",
+            "email": "emad.mahmoud.dev@gmail.com"
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Bookled in github",
+        "url": "https://github.com/EmadMahmoud/bookstore_back"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://bookled.herokuapp.com",
+            "description": "Production server"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Books",
+            "description": "All books endpoints"
+        },
+        {
+            "name": "Users",
+            "description": "Everything about users: contains auth "
+        },
+        {
+            "name": "Categories",
+            "description": "All endpoints that handle categories"
+        },
+        {
+            "name": "Library",
+            "description": "All endpoints that handle library Branches"
+        }
+    ],
+    "paths": {
+        "/api/v1/book/add": {
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Add new book",
+                "description": "Add new book to the database",
+                "operationId": "addBook",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Book"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Book added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book Created",
+                                    "book": {
+                                        "id": 1,
+                                        "title": "The Art of War",
+                                        "author": "Sun Tzu",
+                                        "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                        "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                        "isbn": "9781566199094",
+                                        "pages": 100,
+                                        "recordDate": "2021-08-01T00:00:00.000Z",
+                                        "imprintId": 1,
+                                        "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                        "daysToRead": 10,
+                                        "noReads": 15,
+                                        "category_id": "1",
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "questions": [
+                                            {
+                                                "questionText": "What is the capital of Egypt?",
+                                                "index": 1,
+                                                "choices": [
+                                                    "Cairo",
+                                                    "Alexandria",
+                                                    "Aswan",
+                                                    "Luxor"
+                                                ],
+                                                "answer": "Cairo",
+                                                "point": 1
+                                            },
+                                            {
+                                                "questionText": "What is the capital of France?",
+                                                "index": 2,
+                                                "choices": [
+                                                    "Paris",
+                                                    "Marseille",
+                                                    "Lyon",
+                                                    "Toulouse"
+                                                ],
+                                                "answer": "Paris",
+                                                "point": 1
+                                            }
+                                        ],
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Book": {
+                "required": [
+                    "title",
+                    "author",
+                    "isbn",
+                    "category_id",
+                    "user_id"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Book title",
+                        "example": "The Art of War"
+                    },
+                    "author": {
+                        "type": "string",
+                        "description": "Book author",
+                        "example": "Sun Tzu"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Book description",
+                        "example": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics."
+                    },
+                    "imageUrl": {
+                        "type": "string",
+                        "description": "Book image",
+                        "example": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg"
+                    },
+                    "isbn": {
+                        "type": "string",
+                        "description": "Book ISBN-13",
+                        "example": "9781566199094"
+                    },
+                    "pages": {
+                        "type": "number",
+                        "description": "Number of pages",
+                        "example": 100
+                    },
+                    "recordDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Book record date",
+                        "example": "2021-08-01T00:00:00.000Z"
+                    },
+                    "imprintId": {
+                        "type": "number",
+                        "description": "Book imprint id",
+                        "example": 1
+                    },
+                    "pdfUrl": {
+                        "type": "string",
+                        "description": "Book pdf url",
+                        "example": "https://www.amazon.com/books/The_Art_Of_War"
+                    },
+                    "daysToRead": {
+                        "type": "number",
+                        "description": "Number of days to read the book",
+                        "example": 10
+                    },
+                    "noReads": {
+                        "type": "number",
+                        "description": "Number of reads",
+                        "example": 15
+                    },
+                    "category_id": {
+                        "type": "string",
+                        "description": "Category which book belong to",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "type": "string",
+                        "description": "User who added the book",
+                        "example": "1"
+                    },
+                    "questions": {
+                        "type": "array",
+                        "description": "Book questions",
+                        "items": {
+                            "required": [
+                                "questionText",
+                                "index",
+                                "choices",
+                                "answer",
+                                "point"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "questionText": {
+                                    "type": "string",
+                                    "description": "Question body"
+                                },
+                                "index": {
+                                    "type": "number",
+                                    "description": "Question index in quiz"
+                                },
+                                "choices": {
+                                    "type": "array",
+                                    "description": "Question choices",
+                                    "items": {
+                                        "type": "string",
+                                        "description": "Choice body"
+                                    }
+                                },
+                                "answer": {
+                                    "type": "string",
+                                    "description": "Answer"
+                                },
+                                "point": {
+                                    "type": "number",
+                                    "description": "Question points"
+                                }
+                            }
+                        },
+                        "example": [
+                            {
+                                "questionText": "What is the capital of Egypt?",
+                                "index": 1,
+                                "choices": [
+                                    "Cairo",
+                                    "Alexandria",
+                                    "Aswan",
+                                    "Luxor"
+                                ],
+                                "answer": "Cairo",
+                                "point": 1
+                            },
+                            {
+                                "questionText": "What is the capital of France?",
+                                "index": 2,
+                                "choices": [
+                                    "Paris",
+                                    "Marseille",
+                                    "Lyon",
+                                    "Toulouse"
+                                ],
+                                "answer": "Paris",
+                                "point": 1
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
