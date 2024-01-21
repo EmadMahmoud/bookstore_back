@@ -31,7 +31,7 @@
         },
         {
             "name": "Users",
-            "description": "Everything about users: contains auth "
+            "description": "Everything about use    rs: contains auth "
         },
         {
             "name": "Categories",
@@ -53,7 +53,7 @@
                 "operationId": "addBook",
                 "requestBody": {
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
                                 "$ref": "#/components/schemas/Book"
                             }
@@ -146,7 +146,144 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/book/{bookId}": {
+            "put": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Update book",
+                "description": "Update book by Id",
+                "operationId": "updateBook",
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Book"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Book updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book Updated",
+                                    "book": {
+                                        "id": 1,
+                                        "title": "The Art of War",
+                                        "author": "Sun Tzu",
+                                        "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                        "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                        "isbn": "9781566199094",
+                                        "pages": 100,
+                                        "recordDate": "2021-08-01T00:00:00.000Z",
+                                        "imprintId": 1,
+                                        "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                        "daysToRead": 10,
+                                        "noReads": 15,
+                                        "category_id": "1",
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "questions": [
+                                            {
+                                                "questionText": "What is the capital of Egypt?",
+                                                "index": 1,
+                                                "choices": [
+                                                    "Cairo",
+                                                    "Alexandria",
+                                                    "Aswan",
+                                                    "Luxor"
+                                                ],
+                                                "answer": "Cairo",
+                                                "point": 1
+                                            },
+                                            {
+                                                "questionText": "What is the capital of France?",
+                                                "index": 2,
+                                                "choices": [
+                                                    "Paris",
+                                                    "Marseille",
+                                                    "Lyon",
+                                                    "Toulouse"
+                                                ],
+                                                "answer": "Paris",
+                                                "point": 1
+                                            }
+                                        ],
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -157,8 +294,7 @@
                     "title",
                     "author",
                     "isbn",
-                    "category_id",
-                    "user_id"
+                    "bookCategoryId"
                 ],
                 "type": "object",
                 "properties": {
@@ -177,10 +313,11 @@
                         "description": "Book description",
                         "example": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics."
                     },
-                    "imageUrl": {
-                        "type": "string",
-                        "description": "Book image",
-                        "example": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg"
+                    "image": {
+                        "type": "file",
+                        "contentMediaType": "image/png, image/jpg, image/jpeg",
+                        "contentEncoding": "base64",
+                        "description": "Book image"
                     },
                     "isbn": {
                         "type": "string",
@@ -218,14 +355,9 @@
                         "description": "Number of reads",
                         "example": 15
                     },
-                    "category_id": {
+                    "bookCategoryId": {
                         "type": "string",
                         "description": "Category which book belong to",
-                        "example": "1"
-                    },
-                    "user_id": {
-                        "type": "string",
-                        "description": "User who added the book",
                         "example": "1"
                     },
                     "questions": {
@@ -295,6 +427,13 @@
                         ]
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }
