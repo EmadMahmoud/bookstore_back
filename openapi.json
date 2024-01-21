@@ -31,7 +31,7 @@
         },
         {
             "name": "Users",
-            "description": "Everything about use    rs: contains auth "
+            "description": "Everything about users"
         },
         {
             "name": "Categories",
@@ -284,6 +284,530 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get book by Id",
+                "description": "Get book by id from the database",
+                "operationId": "getBookById",
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book retrieved successfully",
+                                    "book": {
+                                        "id": 1,
+                                        "title": "The Art of War",
+                                        "author": "Sun Tzu",
+                                        "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                        "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                        "isbn": "9781566199094",
+                                        "pages": 100,
+                                        "recordDate": "2021-08-01T00:00:00.000Z",
+                                        "imprintId": 1,
+                                        "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                        "daysToRead": 10,
+                                        "noReads": 15,
+                                        "category_id": "1",
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Delete book by Id",
+                "description": "Delete book by id from the database",
+                "operationId": "deleteBookById",
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Book deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book deleted successfully"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/book/getAllBooks": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get all books",
+                "description": "Get all books from the database",
+                "operationId": "getAllBooks",
+                "responses": {
+                    "200": {
+                        "description": "Books retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Books retrieved successfully",
+                                    "books": [
+                                        {
+                                            "id": 1,
+                                            "title": "The Art of War",
+                                            "author": "Sun Tzu",
+                                            "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                            "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                            "isbn": "9781566199094",
+                                            "pages": 100,
+                                            "recordDate": "2021-08-01T00:00:00.000Z",
+                                            "imprintId": 1,
+                                            "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                            "daysToRead": 10,
+                                            "noReads": 15,
+                                            "category_id": "1",
+                                            "user_id": "1",
+                                            "_id": "657e720637fc1d3b85ba07fe"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title": "Idiot Brain",
+                                            "author": "Mohey Elsharkawy",
+                                            "description": "Mohey Elsharkawy is an ancient Egyptian military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                            "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                            "isbn": "9781566199094",
+                                            "pages": 100,
+                                            "recordDate": "2022-08-01T00:00:00.000Z",
+                                            "imprintId": 1,
+                                            "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                            "daysToRead": 10,
+                                            "noReads": 15,
+                                            "category_id": "1",
+                                            "user_id": "1",
+                                            "_id": "657e720637fc1d3b85ba07ga"
+                                        }
+                                    ],
+                                    "totalBooks": 2
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/book/getAllBooks/{categoryId}": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get all books by category Id",
+                "description": "Get all books in a category",
+                "operationId": "getAllBooksByCategoryId",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Books retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Books retrieved successfully",
+                                    "books": [
+                                        {
+                                            "id": 1,
+                                            "title": "The Art of War",
+                                            "author": "Sun Tzu",
+                                            "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                            "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                            "isbn": "9781566199094",
+                                            "pages": 100,
+                                            "recordDate": "2021-08-01T00:00:00.000Z",
+                                            "imprintId": 1,
+                                            "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                            "daysToRead": 10,
+                                            "noReads": 15,
+                                            "category_id": "1",
+                                            "user_id": "1",
+                                            "_id": "657e720637fc1d3b85ba07fe"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "title": "Idiot Brain",
+                                            "author": "Mohey Elsharkawy",
+                                            "description": "Mohey Elsharkawy is an ancient Egyptian military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                            "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                            "isbn": "9781566199094",
+                                            "pages": 100,
+                                            "recordDate": "2022-08-01T00:00:00.000Z",
+                                            "imprintId": 1,
+                                            "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                            "daysToRead": 10,
+                                            "noReads": 15,
+                                            "category_id": "1",
+                                            "user_id": "1",
+                                            "_id": "657e720637fc1d3b85ba07ga"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No books in this category",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "No books in this category"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/book/{bookId}/questions": {
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Add new question to book",
+                "description": "Add new question to book by Id",
+                "operationId": "addQuestionToBook",
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Question"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Question added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Question added successfully",
+                                    "book": {
+                                        "id": 1,
+                                        "title": "The Art of War",
+                                        "author": "Sun Tzu",
+                                        "description": "The Art of War is an ancient Chinese military treatise dating from the Late Spring and Autumn Period. The work, which is attributed to the ancient Chinese military strategist Sun Tzu, is composed of 13 chapters. Each one is devoted to an aspect of warfare and how it applies to military strategy and tactics.",
+                                        "imageUrl": "https://images-na.ssl-images-amazon.com/images/I/51Q7QsI7xXL._SX331_BO1,204,203,200_.jpg",
+                                        "isbn": "9781566199094",
+                                        "pages": 100,
+                                        "recordDate": "2021-08-01T00:00:00.000Z",
+                                        "imprintId": 1,
+                                        "pdfUrl": "https://www.amazon.com/books/The_Art_Of_War",
+                                        "daysToRead": 10,
+                                        "noReads": 15,
+                                        "category_id": "1",
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "questions": [
+                                            {
+                                                "questionText": "What is the capital of Egypt?",
+                                                "index": 1,
+                                                "choices": [
+                                                    "Cairo",
+                                                    "Alexandria",
+                                                    "Aswan",
+                                                    "Luxor"
+                                                ],
+                                                "answer": "Cairo",
+                                                "point": 1
+                                            },
+                                            {
+                                                "questionText": "What is the capital of France?",
+                                                "index": 2,
+                                                "choices": [
+                                                    "Paris",
+                                                    "Marseille",
+                                                    "Lyon",
+                                                    "Toulouse"
+                                                ],
+                                                "answer": "Paris",
+                                                "point": 3
+                                            },
+                                            {
+                                                "questionText": "What is the capital of Germany?",
+                                                "index": 3,
+                                                "choices": [
+                                                    "Berlin",
+                                                    "Munich",
+                                                    "Hamburg",
+                                                    "Frankfurt"
+                                                ],
+                                                "answer": "Berlin",
+                                                "point": 4
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Get all questions in book",
+                "description": "Get all questions in book by Id",
+                "operationId": "getAllQuestionsInBook",
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "description": "Book id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Questions retrieved successfully",
+                                    "questions": [
+                                        {
+                                            "questionText": "What is the capital of Egypt?",
+                                            "index": 1,
+                                            "choices": [
+                                                "Cairo",
+                                                "Alexandria",
+                                                "Aswan",
+                                                "Luxor"
+                                            ],
+                                            "answer": "Cairo",
+                                            "point": 1
+                                        },
+                                        {
+                                            "questionText": "What is the capital of France?",
+                                            "index": 2,
+                                            "choices": [
+                                                "Paris",
+                                                "Marseille",
+                                                "Lyon",
+                                                "Toulouse"
+                                            ],
+                                            "answer": "Paris",
+                                            "point": 3
+                                        },
+                                        {
+                                            "questionText": "What is the capital of Germany?",
+                                            "index": 3,
+                                            "choices": [
+                                                "Berlin",
+                                                "Munich",
+                                                "Hamburg",
+                                                "Frankfurt"
+                                            ],
+                                            "answer": "Berlin",
+                                            "point": 4
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -390,7 +914,7 @@
                                     }
                                 },
                                 "answer": {
-                                    "type": "string",
+                                    "type": "number",
                                     "description": "Answer"
                                 },
                                 "point": {
@@ -425,6 +949,47 @@
                                 "point": 1
                             }
                         ]
+                    }
+                }
+            },
+            "Question": {
+                "required": [
+                    "questionText",
+                    "index",
+                    "choices",
+                    "answer",
+                    "point"
+                ],
+                "type": "object",
+                "properties": {
+                    "questionText": {
+                        "type": "string",
+                        "description": "Question body",
+                        "example": "What is the capital of Egypt?"
+                    },
+                    "index": {
+                        "type": "number",
+                        "description": "Question index in quiz",
+                        "example": 1
+                    },
+                    "choices": {
+                        "type": "array",
+                        "description": "Question choices",
+                        "items": {
+                            "type": "string",
+                            "description": "Choice body",
+                            "example": "Cairo"
+                        }
+                    },
+                    "answer": {
+                        "type": "number",
+                        "description": "Answer",
+                        "example": 1
+                    },
+                    "point": {
+                        "type": "number",
+                        "description": "Question points",
+                        "example": 4
                     }
                 }
             }

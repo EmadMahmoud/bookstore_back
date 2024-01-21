@@ -98,7 +98,7 @@ router.get('/getAllBooks/:categoryId', bookController.getCategoryBooks);
 
 
 //questions routes
-router.post('/:bookId/add-question',
+router.post('/:bookId/questions',
     [
         body('questionText', 'Not a valid question')
             .trim()

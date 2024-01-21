@@ -74,7 +74,7 @@ exports.getBooks = async (req, res, next) => {
     try {
         const allBooks = await Book.find();
         const totalBooks = await Book.find().countDocuments();
-        res.status(200).json({ message: 'All Books', books: allBooks, totalBooks: totalBooks });
+        res.status(200).json({ message: 'Books retrieved successfully', books: allBooks, totalBooks: totalBooks });
 
     } catch (err) {
         if (!err.statusCode) {
@@ -93,117 +93,7 @@ exports.getBook = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({ message: 'Book fetched', book: book });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-};
-
-// get all books in a single category
-exports.getCategoryBooks = async (req, res, next) => {
-    const categoryId = req.params.categoryId;
-    try {
-        const books = await Book.find({ category_id: categoryId });
-        if (!books) {
-            const error = new Error('No books in this category');
-            error.statusCode = 404;
-            throw error;
-        }
-        res.status(200).json({ message: 'Books fetched', books: books });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-};
-
-exports.deleteBook = async (req, res, next) => {
-    const bookId = req.params.bookId;
-    try {
-        const book = await Book.findById(bookId);
-        if (!book) {
-            const error = new Error('Book not found');
-            error.statusCode = 404;
-            throw error;
-        }
-        const category = await Category.findById(book.category_id);
-        if (!category) {
-            const error = new Error('Category not found');
-            error.statusCode = 404;
-            throw error;
-        }
-        category.books.pull(bookId);
-        await category.save();
-        clearImage(book.imageUrl);
-        await Book.findByIdAndDelete(bookId);
-        res.status(200).json({ message: 'Book deleted' });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-}
-
-
-// question controllers
-exports.addQuestion = async (req, res, next) => {
-    const bookId = req.params.bookId;
-    const questionText = req.body.questionText;
-    const index = req.body.index;
-    const choices = req.body.choices;
-    const answer = req.body.answer;
-    const point = req.body.point;
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        const error = new Error('Validation Failed');
-        error.statusCode = 422;
-        error.data = errors.array();
-        return next(error);
-    }
-
-    try {
-        const book = await Book.findById(bookId);
-        if (!book) {
-            const error = new Error('Book not found');
-            error.statusCode = 404;
-            throw error;
-        }
-        const question = {
-            questionText: questionText,
-            index: index,
-            choices: choices,
-            answer: answer,
-            point: point
-        };
-        book.questions.push(question);
-        const updatedBook = await book.save();
-        res.status(201).json({ message: 'Question added', book: updatedBook });
-    } catch (err) {
-        if (!err.statusCode) {
-            err.statusCode = 500;
-        }
-        next(err);
-    }
-};
-
-exports.getQuestions = async (req, res, next) => {
-    const bookId = req.params.bookId;
-    try {
-        const book = await Book.findById(bookId);
-        if (!book) {
-            const error = new Error('Book not found');
-            error.statusCode = 404;
-            throw error;
-        }
-        const questions = book.questions;
-        res.status(200).json({ message: 'Questions fetched', questions: questions });
+        res.status(200).json({ message: 'Book retrieved successfully', book: book });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -273,6 +163,118 @@ exports.editBook = async (req, res, next) => {
         next(err);
     }
 }
+
+// get all books in a single category
+exports.getCategoryBooks = async (req, res, next) => {
+    const categoryId = req.params.categoryId;
+    try {
+        const books = await Book.find({ category_id: categoryId });
+        if (!books) {
+            const error = new Error('No books in this category');
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ message: 'Books retrieved successfully', books: books });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.deleteBook = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            throw error;
+        }
+        const category = await Category.findById(book.category_id);
+        if (!category) {
+            const error = new Error('Category not found');
+            error.statusCode = 404;
+            throw error;
+        }
+        category.books.pull(bookId);
+        await category.save();
+        clearImage(book.imageUrl);
+        await Book.findByIdAndDelete(bookId);
+        res.status(200).json({ message: 'Book deleted successfully' });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
+
+// question controllers
+exports.addQuestion = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    const questionText = req.body.questionText;
+    const index = req.body.index;
+    const choices = req.body.choices;
+    const answer = req.body.answer;
+    const point = req.body.point;
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const error = new Error('Validation Failed');
+        error.statusCode = 422;
+        error.data = errors.array();
+        return next(error);
+    }
+
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            throw error;
+        }
+        const question = {
+            questionText: questionText,
+            index: index,
+            choices: choices,
+            answer: answer,
+            point: point
+        };
+        book.questions.push(question);
+        const updatedBook = await book.save();
+        res.status(201).json({ message: 'Question added successfully', book: updatedBook });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.getQuestions = async (req, res, next) => {
+    const bookId = req.params.bookId;
+    try {
+        const book = await Book.findById(bookId);
+        if (!book) {
+            const error = new Error('Book not found');
+            error.statusCode = 404;
+            throw error;
+        }
+        const questions = book.questions;
+        res.status(200).json({ message: 'Questions retrieved successfully', questions: questions });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+
 
 
 //helper function
