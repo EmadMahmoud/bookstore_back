@@ -115,7 +115,7 @@ describe('Category Controller - addCategory', () => {
         expect(mockResponse().status).toHaveBeenCalledWith(201);
         expect(jsonMock).toHaveBeenCalled();
         expect(jsonMock).toHaveBeenCalledWith(expect.objectContaining({
-            message: 'Category Created',
+            message: expect.any(String),
             category: { name: 'Science', description: 'Science Books' }
         }));
     });

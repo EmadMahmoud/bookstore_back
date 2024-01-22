@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const UserPending = require('../../models/pending_user');
 const User = require('../../models/user');
 
-const fixedPart = '/bookstore/api/v1';
+const fixedPart = '/api/v1';
 
 describe('Auth Routes', () => {
     let createTransportSpy;
@@ -57,7 +57,8 @@ describe('Auth Routes', () => {
                 arName: 'واتسون',
                 email: 'emadis4char@gmail.com',
                 password: '123456',
-                userName: 'emma'
+                userName: 'emma',
+                role: 1
             });
             const user = await UserPending.findOne({ email: 'emadis4char@gmail.com' }).exec();
             const _id = user._id.toString();

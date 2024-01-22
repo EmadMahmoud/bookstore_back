@@ -29,7 +29,7 @@ exports.addCategory = async (req, res, next) => {
             description: description
         });
         const createdCategory = await category.save();
-        res.status(201).json({ message: 'Category Created', category: createdCategory });
+        res.status(201).json({ message: 'Category Created Successfully', category: createdCategory });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -41,9 +41,9 @@ exports.addCategory = async (req, res, next) => {
 exports.getCategories = async (req, res, next) => {
 
     try {
-        const categories = await Category.find();
+        const categories = await Category.find().exec();
         const totalCategories = await Category.find().countDocuments();
-        res.status(200).json({ message: 'Categories Fetched', categories: categories, totalCategories: totalCategories });
+        res.status(200).json({ message: 'Categories Fetched Successfully', categories: categories, totalCategories: totalCategories });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -53,8 +53,8 @@ exports.getCategories = async (req, res, next) => {
 };
 
 exports.getCategory = async (req, res, next) => {
-    const categoryId = req.params.categoryId;
     try {
+        const categoryId = req.params.categoryId;
         const category = await Category.findById(categoryId)
             .select('-books')
             .exec()
@@ -63,7 +63,7 @@ exports.getCategory = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({ message: 'Category Fetched', category: category });
+        res.status(200).json({ message: 'Category Fetched Successfully', category: category });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
