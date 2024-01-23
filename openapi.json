@@ -809,6 +809,349 @@
                     }
                 }
             }
+        },
+        "/api/v1/category/add": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Add new category",
+                "description": "Add new category to the database",
+                "operationId": "addCategory",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Category"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category Created Successfully",
+                                    "category": {
+                                        "id": 1,
+                                        "name": "Science",
+                                        "description": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor.",
+                                        "books": [],
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/category/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "description": "Get all categories from the database",
+                "operationId": "getAllCategories",
+                "responses": {
+                    "200": {
+                        "description": "Categories retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Categories retrieved successfully",
+                                    "categories": [
+                                        {
+                                            "name": "Science",
+                                            "description": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor.",
+                                            "books": [],
+                                            "_id": "657e720637fc1d3b85ba07fe",
+                                            "__v": 0
+                                        },
+                                        {
+                                            "name": "History",
+                                            "description": "A history book is a work of nonfiction, usually written by a historian or other professional in the field, that is intended to present the knowledge of history in a more or less accurate fashion.",
+                                            "books": [],
+                                            "_id": "657e720637fc1d3b85ba07ga",
+                                            "__v": 0
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/category/{categoryId}": {
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update category",
+                "description": "Update category by Id",
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Category"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category Updated Successfully",
+                                    "category": {
+                                        "name": "Science",
+                                        "description": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor.",
+                                        "books": [],
+                                        "user_id": "1",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category by Id",
+                "description": "Get category by id from the database",
+                "operationId": "getCategoryById",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category Fetchedd Successfully",
+                                    "category": {
+                                        "name": "Science",
+                                        "description": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor.",
+                                        "_id": "657e720637fc1d3b85ba07fe",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category by Id",
+                "description": "Delete category by id from the database",
+                "operationId": "deleteCategoryById",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category Deleted Successfully"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Category not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -990,6 +1333,25 @@
                         "type": "number",
                         "description": "Question points",
                         "example": 4
+                    }
+                }
+            },
+            "Category": {
+                "required": [
+                    "name",
+                    "description"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Category name",
+                        "example": "Science"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Category description",
+                        "example": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor."
                     }
                 }
             }

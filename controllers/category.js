@@ -89,7 +89,7 @@ exports.deleteCategory = async (req, res, next) => {
         }
         await deleteBooksInCategory(categoryId);
         await Category.findByIdAndDelete(categoryId);
-        res.status(200).json({ message: 'Category Deleted' });
+        res.status(200).json({ message: 'Category Deleted Successfully' });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -128,7 +128,7 @@ exports.editCategory = async (req, res, next) => {
         category.name = name;
         category.description = description;
         const updatedCategory = await category.save();
-        res.status(200).json({ message: 'Category Updated', category: updatedCategory });
+        res.status(200).json({ message: 'Category Updated Successfully', category: updatedCategory });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
