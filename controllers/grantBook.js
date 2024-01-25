@@ -52,10 +52,9 @@ exports.addGrantBook = async (req, res, next) => {
 
         user.grantedBooks.push(grantBook);
         await user.save();
-        console.log(user.email)
 
         res.status(201).json({
-            message: 'Book granted successfully',
+            message: 'Grant Book Created Successfully',
             grantBook: grantBook
         });
         // send email to the user who granted the book with the granted book information

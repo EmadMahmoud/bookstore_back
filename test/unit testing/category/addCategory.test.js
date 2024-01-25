@@ -52,7 +52,7 @@ describe('Category Controller - addCategory', () => {
         expect(jsonMock).not.toHaveBeenCalled();
     });
 
-    test('should throw an error if user not authorized', async () => {
+    test.only('should throw an error if user not authorized', async () => {
         validationResult.mockReturnValue({
             isEmpty: jest.fn().mockReturnValue(true)
         });

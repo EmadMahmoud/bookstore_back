@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const librarySchema = new Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     place: {
         type: String

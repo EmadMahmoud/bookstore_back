@@ -140,7 +140,7 @@ exports.editCategory = async (req, res, next) => {
 
 
 
-//helpful function
+//helper function
 const deleteBooksInCategory = async (categoryId) => {
     let booksInCategory = await Book.find({ category_id: categoryId });
     booksInCategory.forEach(async (book) => {
@@ -149,3 +149,5 @@ const deleteBooksInCategory = async (categoryId) => {
         await Book.findByIdAndDelete(book._id);
     })
 };
+
+exports.deleteBooksInCategoryFunction = deleteBooksInCategory;

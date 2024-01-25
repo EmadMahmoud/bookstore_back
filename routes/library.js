@@ -18,12 +18,12 @@ router.post('/add',
     libraryController.addLibrary
 );
 
-router.get('/libraries', libraryController.getLibraries);
+router.get('/allLibraries', libraryController.getLibraries);
 
-router.get('/library/:libraryId', libraryController.getLibrary);
+router.get('/:libraryId', libraryController.getLibrary);
 
-router.put('/edit/:libraryId', isAuth, libraryController.editLibrary);
+router.put('/:libraryId', isAuth, libraryController.editLibrary);
 
-router.delete('/delete/:libraryId', isAuth, libraryController.deleteLibrary);
+router.delete('/:libraryId', isAuth, libraryController.deleteLibrary);
 
 module.exports = router;

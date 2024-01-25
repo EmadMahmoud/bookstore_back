@@ -35,7 +35,7 @@ exports.addLibrary = async (req, res, next) => {
             website: website
         });
         const createdLibrary = await library.save();
-        res.status(201).json({ message: 'Library Created', library: createdLibrary });
+        res.status(201).json({ message: 'Library Created Successfully', library: createdLibrary });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -65,7 +65,7 @@ exports.getLibrary = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({ message: 'Library Fetched', library: library });
+        res.status(200).json({ message: 'Library Fetched Successfully', library: library });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
@@ -137,7 +137,7 @@ exports.deleteLibrary = async (req, res, next) => {
             throw error;
         }
         await Library.findByIdAndDelete(libraryId);
-        res.status(200).json({ message: 'Library Deleted' });
+        res.status(200).json({ message: 'Library Deleted Successfully' });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;

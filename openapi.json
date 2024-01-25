@@ -1152,6 +1152,500 @@
                     }
                 ]
             }
+        },
+        "/api/v1/grantBook/add": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Add new grant book to User",
+                "description": "Add new grant book to a specific user",
+                "operationId": "addGrantBook",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GrantBook"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Grant book added successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Grant Book Created Successfully",
+                                    "grantBook": {
+                                        "book_id": "65b295badd6d5358908e14f7",
+                                        "grantCode": "47283405423"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Book not found or User not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Book not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/grantBook/grantBooks": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all User Granted Books",
+                "description": "Get all grant books specific to a user",
+                "operationId": "getAllGrantBooks",
+                "responses": {
+                    "200": {
+                        "description": "Grant books retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Fetched granted books successfully",
+                                    "grantBooks": [
+                                        {
+                                            "book_id": "65b295badd6d5358908e14f7",
+                                            "grantCode": "47283405423"
+                                        },
+                                        {
+                                            "book_id": "65b295badd6d5358908e23g8",
+                                            "grantCode": "47283403597"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "User not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal server error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/library/add": {
+            "post": {
+                "tags": [
+                    "Library"
+                ],
+                "summary": "Add new library location",
+                "description": "Add new library location",
+                "operationId": "addLibraryLocation",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Library"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Library Created Successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library Created Successfully",
+                                    "library": {
+                                        "name": "Mansoura Library",
+                                        "place": "34 Medak Street",
+                                        "country": "Egypt",
+                                        "phoneNumber": "+7773000",
+                                        "email": "mansouralibrary@gmail.com",
+                                        "website": "https://mansouralibrary.com",
+                                        "_id": "657cd1578f890cf0da776258",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal Server Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/library/allLibraries": {
+            "get": {
+                "tags": [
+                    "Library"
+                ],
+                "summary": "Get all libraries",
+                "description": "Get all libraries from the database",
+                "operationId": "getAllLibraries",
+                "responses": {
+                    "200": {
+                        "description": "Libraries retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Libraries retrieved successfully",
+                                    "libraries": [
+                                        {
+                                            "name": "Mansoura Library",
+                                            "place": "34 Medak Street",
+                                            "country": "Egypt",
+                                            "phoneNumber": "+7773000",
+                                            "email": "mansouralibrary@gmail.com",
+                                            "website": "https://mansouralibrary.com",
+                                            "_id": "657cd1578f890cf0da776258",
+                                            "__v": 0
+                                        },
+                                        {
+                                            "name": "Alexandria Library",
+                                            "place": "34 Emad Street",
+                                            "country": "Egypt",
+                                            "phoneNumber": "+4693000",
+                                            "email": "alexandrailibrary@gmail.com",
+                                            "website": "https://alexandrialibrary.com",
+                                            "_id": "657cd1578f890cf0da776259",
+                                            "__v": 0
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal Server Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/library/{libraryId}": {
+            "get": {
+                "tags": [
+                    "Library"
+                ],
+                "summary": "Get library by Id",
+                "description": "Get library by id from the database",
+                "operationId": "getLibraryById",
+                "parameters": [
+                    {
+                        "name": "libraryId",
+                        "in": "path",
+                        "description": "Library id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Library retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library Fetched Successfully",
+                                    "library": {
+                                        "name": "Mansoura Library",
+                                        "place": "34 Medak Street",
+                                        "country": "Egypt",
+                                        "phoneNumber": "+7773000",
+                                        "email": "mansouralibrary@gmail.com",
+                                        "website": "https://mansouralibrary.com",
+                                        "_id": "657cd1578f890cf0da776258",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Library not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library not found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal Server Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Library"
+                ],
+                "summary": "Update library",
+                "description": "Update library by Id",
+                "operationId": "updateLibrary",
+                "parameters": [
+                    {
+                        "name": "libraryId",
+                        "in": "path",
+                        "description": "Library id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Library"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Library updated successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library Updated Successfully",
+                                    "library": {
+                                        "name": "Mansoura Library",
+                                        "place": "34 Medak Street",
+                                        "country": "Egypt",
+                                        "phoneNumber": "+7773000",
+                                        "email": "mansouralibrary@gmail.com",
+                                        "website": "https://mansouralibrary.com",
+                                        "_id": "657cd1578f890cf0da776258",
+                                        "__v": 0
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Validatoin Failed"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Library not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal Server Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Library"
+                ],
+                "summary": "Delete library by Id",
+                "description": "Delete library by id from the database",
+                "operationId": "deleteLibraryById",
+                "parameters": [
+                    {
+                        "name": "libraryId",
+                        "in": "path",
+                        "description": "Library id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Library deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library Deleted Successfully"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Library not found",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Library not found"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Not Authorized"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Internal Server Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1352,6 +1846,63 @@
                         "type": "string",
                         "description": "Category description",
                         "example": "A science book is a work of nonfiction, usually written by a scientist, researcher, or professor."
+                    }
+                }
+            },
+            "GrantBook": {
+                "required": [
+                    "bookId",
+                    "userId"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookId": {
+                        "type": "string",
+                        "description": "Book id",
+                        "example": "65b295badd6d5358908e14f7"
+                    },
+                    "grantCode": {
+                        "type": "string",
+                        "description": "Grant code",
+                        "example": "123456"
+                    }
+                }
+            },
+            "Library": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Library name",
+                        "example": "Mansoura Library"
+                    },
+                    "place": {
+                        "type": "string",
+                        "description": "Library place",
+                        "example": "34 Medak Street"
+                    },
+                    "phoneNumber": {
+                        "type": "string",
+                        "description": "Library phone",
+                        "example": "+7773000"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "The Country where library is located",
+                        "example": "Egypt"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "Library email",
+                        "example": "mansouralibrary@gmail.com"
+                    },
+                    "website": {
+                        "type": "string",
+                        "description": "Library website",
+                        "example": "https://mansouralibrary.com"
                     }
                 }
             }

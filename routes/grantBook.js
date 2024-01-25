@@ -21,7 +21,7 @@ router.post('/add',
     grantBookController.addGrantBook
 );
 
-router.get('/grantBooks', isAuth, grantBookController.getGrantBooks)
+router.get('/grantBooks', isAuth, grantBookController.getGrantBooks);
 
 
 module.exports = router;
